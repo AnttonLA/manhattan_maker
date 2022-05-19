@@ -1,6 +1,10 @@
-# Manhattan Plot Generator
+# Manhattan Maker
 
-`manhattan_generator` is a python tool to create beautiful Manhattan plots.
+`manhattan_maker` is a python tool to create Manhattan plots from GWAS output data.
+
+It is heavily based on `manhattan_generator` (https://github.com/pgxcentre/manhattan_generator), the only differences
+being that some options have been removed, and a functionality has been added to color the significant variants by the
+group they belong to.
 
 
 ## Dependencies
@@ -27,9 +31,9 @@ been fully tested for full compatibility.
 $ manhattan_generator --help
 usage: manhattan_generator [-h] [-v] [--twopoint FILE] [--multipoint FILE]
                            [--col-chr COL] [--col-name COL] [--col-pos COL]
-                           [--col-cm COL] [--col-pvalue COL] [--col-lod COL]
-                           [-o NAME] [-f FORMAT] [--web] [--dpi INT] [--bp]
-                           [--use-pvalues] [--exclude-chr STRING]
+                           [--col-pvalue COL] [--col-groups COL]
+                           [-o NAME] [-f FORMAT] [--web] [--dpi INT]
+                           [--use-groups] [--exclude-chr STRING]
                            [--no-negative-values] [--max-ylim FLOAT]
                            [--min-ylim FLOAT] [--no-y-padding]
                            [--graph-title TITLE] [--graph-xlabel TEXT]
@@ -37,7 +41,7 @@ usage: manhattan_generator [-h] [-v] [--twopoint FILE] [--multipoint FILE]
                            [--graph-height HEIGHT] [--point-size SIZE]
                            [--significant-point-size SIZE]
                            [--abline POS1,POS2,...]
-                           [--significant-threshold FLOAT] [--no-annotation]
+                           [--significant-threshold FLOAT]
                            [--axis-text-size INT] [--chr-text-size INT]
                            [--label-text-size INT]
                            [--chromosome-box-color COLOR]
@@ -45,6 +49,7 @@ usage: manhattan_generator [-h] [-v] [--twopoint FILE] [--multipoint FILE]
                            [--odd-chromosome-color COLOR]
                            [--multipoint-color COLOR]
                            [--significant-color COLOR]
+                           [--group-colors COLOR1,COLOR2,...]
 
 This script produces nice Manhattan plots for either linkage or GWAS results.
 
@@ -56,8 +61,7 @@ Input Options:
   Options for the input file(s) (name of the file, type of graph, etc.).
   Note that for GWAS results, only the '--twopoint' option should be used.
 
-  --twopoint FILE       The input FILE for two-point linkage.
-  --multipoint FILE     The input FILE for multipoint linkage.
+  --in-file FILE       The input FILE for the Manhattan.
 
 Column Options:
   The name of the different columns in the input file(s).
@@ -72,8 +76,8 @@ Column Options:
                         [Default: cm].
   --col-pvalue COL      The name of the column containing the marker p values
                         [Default: p_value]
-  --col-lod COL         The name of the column containing the marker LOD score
-                        [Default: lod]
+  --col-groups COL      The name of the column containing the groups info.
+                        [Default: groups]
 
 Graph Output Options:
   Options for the ouput file (name of the file, type of graph, etc.).
@@ -90,10 +94,8 @@ Graph Output Options:
 Graph Options:
   Options for the graph type (two-point, multipoint, etc.).
 
-  --bp                  Use physical positions (bp) instead of genetic
-                        positions (cM).
-  --use-pvalues         Use pvalues instead of LOD score. Requires to compute
-                        -log10(pvalue).
+  --use-groups          Use groups to separate variants. Requires group column
+                        in the input file.
   --exclude-chr STRING  Exclude those chromosomes (list of chromosomes,
                         separated by a coma) [Default: None].
 
@@ -124,8 +126,7 @@ Graph Presentation Options:
                         results.
   --axis-text-size INT  The axis font size [Default: 12]
   --chr-text-size INT   The axis font size [Default: 12]
-  --label-text-size INT
-                        The axis font size [Default: 12]
+  --label-text-size INT The axis font size [Default: 12]
 
 Graph Colors Options:
   Options for the graph colors.
@@ -160,11 +161,8 @@ manhattan_generator \
     --col-name MarkerName \
     --col-pos Position \
     --col-pvalue p \
-    --bp \
-    --use-pvalues \
     --abline 95 \
     --significant-threshold 95 \
-    --no-annotation \
     --significant-point-size 2 \
     --point-size 1 \
     --graph-title "GIANT height (Wood et al. 2014, public release)" \
