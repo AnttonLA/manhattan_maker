@@ -541,9 +541,9 @@ def check_args(args):
         args.only_chr = encode_chr(args.only_chr)
 
     # Check if '--use_groups' was used on its own. If so, give default values to --group-colors
-    if args.use_groups_flag & (args.group_colors is None):  # TODO: this is awkwardly located here. It may need to move.
+    if args.use_groups_flag and (args.group_colors is None):  # TODO: this is awkwardly located here. It may need to move.
         args.group_colors = "#FF0000,#0000FF"
-    elif not args.use_groups_flag & (args.group_colors is not None):
+    elif not args.use_groups_flag and (args.group_colors is not None):
         msg = "--group-colors option requires --use-groups to be used"
         raise ProgramError(msg)
 

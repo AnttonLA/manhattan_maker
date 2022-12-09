@@ -19,7 +19,11 @@ Here are the dependencies of the tool:
 
 ## Installation
 
-We recommend installing the tool in a Python virtual environment.
+We recommend installing the tool in a Python virtual environment. You can install it by running the following commands:
+
+    $ git clone
+    $ cd manhattan_maker
+    $ pip3 install -e .
 
 `manhattan_generator` should work on Windows and MacOS, even though it hasn't
 been fully tested for full compatibility.
