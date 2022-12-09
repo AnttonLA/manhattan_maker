@@ -1,11 +1,5 @@
 #!/usr/bin/env python
 
-# How to build source distribution
-# python setup.py sdist --format bztar
-# python setup.py sdist --format gztar
-# python setup.py sdist --format zip
-
-
 from setuptools import setup
 
 
@@ -14,19 +8,21 @@ VERSION = "1.7.4"
 
 def setup_package():
     setup(
-        name="manhattan_generator",
+        name="manhattan_maker",
         version=VERSION,
         description="Creation of beautiful Manhattan plots",
         author="Louis-Philippe Lemieux Perreault",
         author_email="louis-philippe.lemieux.perreault@statgen.org",
-        url="https://github.com/pgxcentre/manhattan_generator",
+        maintainer="Antton Lamarca",
+        maintainer_email="antton.lamarca@med.lu.se",
+        url="https://github.com/AnttonLA/manhattan_maker",
         license="CC BY-NC 4.0",
         entry_points={
             "console_scripts": [
-                "manhattan_generator=manhattan_generator:safe_main",
+                "manhattan_maker=manhattan_maker:safe_main",
             ],
         },
-        py_modules=["manhattan_generator"],
+        py_modules=["manhattan_maker"],
         install_requires=["matplotlib >=1.3.1", "numpy >= 1.8.0",
                           "pandas >= 0.17.0"],
         classifiers=[
