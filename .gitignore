@@ -3,5 +3,4 @@
 dist
 build
 *.egg-info
-test
-test_manhattan_maker.py
+/tests/manhattan.png
